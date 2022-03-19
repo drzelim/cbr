@@ -50,6 +50,10 @@ h1 {
   color: #ffffff;
 }
 
+.rate__list h2 {
+  text-align: center;
+}
+
 .popup {
   position: fixed;
   z-index: 100;
