@@ -3,8 +3,9 @@ import RateView from "../view/rate";
 import RatePopupView from "../view/rates-popup";
 
 export default class RatePresenter {
-  constructor(container, rates, rate, escHadnler) {
+  constructor(container, body, rates, rate, escHadnler) {
     this._container = container;
+    this._body = body;
     this._rates = rates;
     this._rate = rate;
     this._escHandler = escHadnler;
@@ -29,9 +30,10 @@ export default class RatePresenter {
 
   _createPopup() {
     const currentRates = this._rates.map((item) => item.filter((i) => i.ID === this._rate.ID)).flat();
-    this._ratesPopupView = new RatePopupView(currentRates)
-    render(this._container, this._ratesPopupView)
-    this._setPopupHandlers()
+    this._ratesPopupView = new RatePopupView(currentRates);
+    render(this._container, this._ratesPopupView);
+    this._setPopupHandlers();
+    this._body.style.overflow = 'hidden';
   }
 
   _setPopupHandlers() {
@@ -41,14 +43,11 @@ export default class RatePresenter {
         this.removePopup();
         return;
       }
-      // if (evt.target.tagName === 'BUTTON') {
-      //   this.removePopup();
-      //   return;
-      // }
     });
   }
 
   removePopup() {
     remove(this._ratesPopupView);
+    this._body.style.overflow = 'visible';
   }
 }

@@ -3,9 +3,10 @@ import RateView from "../view/rate";
 import RatePresenter from "./rate-presenter";
 
 export default class PagePresenter {
-  constructor(container, ratesModel) {
+  constructor(container, body, ratesModel) {
     this._container = container;
     this._ratesModel = ratesModel;
+    this._body = body;
 
     this._rateView = [];
 
@@ -24,7 +25,7 @@ export default class PagePresenter {
   }
 
   _renderRate(rate) {
-    const ratePresenter = new RatePresenter(this._container, this._rates, rate, this._setHandlerECS);
+    const ratePresenter = new RatePresenter(this._container, this._body, this._rates, rate, this._setHandlerECS);
     ratePresenter.init();
     this._ratesPresenters.push(ratePresenter);
   }
