@@ -3,12 +3,13 @@ import RateView from "../view/rate";
 import RatePopupView from "../view/rates-popup";
 
 export default class RatePresenter {
-  constructor(container, body, rates, rate, escHadnler) {
+  constructor(container, body, rates, rate, escHadnler, removePopupOnESC) {
     this._container = container;
     this._body = body;
     this._rates = rates;
     this._rate = rate;
     this._escHandler = escHadnler;
+    this._removePopupOnESC = removePopupOnESC;
 
     this._rateView = null;
     this._ratesPopupView = null;
@@ -48,6 +49,7 @@ export default class RatePresenter {
 
   removePopup() {
     remove(this._ratesPopupView);
+    document.removeEventListener('keydown', this._removePopupOnESC);
     this._body.style.overflow = 'visible';
   }
 }

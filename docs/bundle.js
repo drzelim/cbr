@@ -1,2 +1,646 @@
-(()=>{var t={484:function(t){t.exports=function(){"use strict";var t=6e4,e=36e5,s="millisecond",n="second",r="minute",i="hour",a="day",o="week",u="month",h="quarter",l="year",c="date",d="Invalid Date",_=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,p=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,f={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},v=function(t,e,s){var n=String(t);return!n||n.length>=e?t:""+Array(e+1-n.length).join(s)+t},m={s:v,z:function(t){var e=-t.utcOffset(),s=Math.abs(e),n=Math.floor(s/60),r=s%60;return(e<=0?"+":"-")+v(n,2,"0")+":"+v(r,2,"0")},m:function t(e,s){if(e.date()<s.date())return-t(s,e);var n=12*(s.year()-e.year())+(s.month()-e.month()),r=e.clone().add(n,u),i=s-r<0,a=e.clone().add(n+(i?-1:1),u);return+(-(n+(s-r)/(i?r-a:a-r))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return{M:u,y:l,w:o,d:a,D:c,h:i,m:r,s:n,ms:s,Q:h}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},$="en",y={};y[$]=f;var g=function(t){return t instanceof D},w=function t(e,s,n){var r;if(!e)return $;if("string"==typeof e){var i=e.toLowerCase();y[i]&&(r=i),s&&(y[i]=s,r=i);var a=e.split("-");if(!r&&a.length>1)return t(a[0])}else{var o=e.name;y[o]=e,r=o}return!n&&r&&($=r),r||!n&&$},b=function(t,e){if(g(t))return t.clone();var s="object"==typeof e?e:{};return s.date=t,s.args=arguments,new D(s)},M=m;M.l=w,M.i=g,M.w=function(t,e){return b(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var D=function(){function f(t){this.$L=w(t.locale,null,!0),this.parse(t)}var v=f.prototype;return v.parse=function(t){this.$d=function(t){var e=t.date,s=t.utc;if(null===e)return new Date(NaN);if(M.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var n=e.match(_);if(n){var r=n[2]-1||0,i=(n[7]||"0").substring(0,3);return s?new Date(Date.UTC(n[1],r,n[3]||1,n[4]||0,n[5]||0,n[6]||0,i)):new Date(n[1],r,n[3]||1,n[4]||0,n[5]||0,n[6]||0,i)}}return new Date(e)}(t),this.$x=t.x||{},this.init()},v.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},v.$utils=function(){return M},v.isValid=function(){return!(this.$d.toString()===d)},v.isSame=function(t,e){var s=b(t);return this.startOf(e)<=s&&s<=this.endOf(e)},v.isAfter=function(t,e){return b(t)<this.startOf(e)},v.isBefore=function(t,e){return this.endOf(e)<b(t)},v.$g=function(t,e,s){return M.u(t)?this[e]:this.set(s,t)},v.unix=function(){return Math.floor(this.valueOf()/1e3)},v.valueOf=function(){return this.$d.getTime()},v.startOf=function(t,e){var s=this,h=!!M.u(e)||e,d=M.p(t),_=function(t,e){var n=M.w(s.$u?Date.UTC(s.$y,e,t):new Date(s.$y,e,t),s);return h?n:n.endOf(a)},p=function(t,e){return M.w(s.toDate()[t].apply(s.toDate("s"),(h?[0,0,0,0]:[23,59,59,999]).slice(e)),s)},f=this.$W,v=this.$M,m=this.$D,$="set"+(this.$u?"UTC":"");switch(d){case l:return h?_(1,0):_(31,11);case u:return h?_(1,v):_(0,v+1);case o:var y=this.$locale().weekStart||0,g=(f<y?f+7:f)-y;return _(h?m-g:m+(6-g),v);case a:case c:return p($+"Hours",0);case i:return p($+"Minutes",1);case r:return p($+"Seconds",2);case n:return p($+"Milliseconds",3);default:return this.clone()}},v.endOf=function(t){return this.startOf(t,!1)},v.$set=function(t,e){var o,h=M.p(t),d="set"+(this.$u?"UTC":""),_=(o={},o[a]=d+"Date",o[c]=d+"Date",o[u]=d+"Month",o[l]=d+"FullYear",o[i]=d+"Hours",o[r]=d+"Minutes",o[n]=d+"Seconds",o[s]=d+"Milliseconds",o)[h],p=h===a?this.$D+(e-this.$W):e;if(h===u||h===l){var f=this.clone().set(c,1);f.$d[_](p),f.init(),this.$d=f.set(c,Math.min(this.$D,f.daysInMonth())).$d}else _&&this.$d[_](p);return this.init(),this},v.set=function(t,e){return this.clone().$set(t,e)},v.get=function(t){return this[M.p(t)]()},v.add=function(s,h){var c,d=this;s=Number(s);var _=M.p(h),p=function(t){var e=b(d);return M.w(e.date(e.date()+Math.round(t*s)),d)};if(_===u)return this.set(u,this.$M+s);if(_===l)return this.set(l,this.$y+s);if(_===a)return p(1);if(_===o)return p(7);var f=(c={},c[r]=t,c[i]=e,c[n]=1e3,c)[_]||1,v=this.$d.getTime()+s*f;return M.w(v,this)},v.subtract=function(t,e){return this.add(-1*t,e)},v.format=function(t){var e=this,s=this.$locale();if(!this.isValid())return s.invalidDate||d;var n=t||"YYYY-MM-DDTHH:mm:ssZ",r=M.z(this),i=this.$H,a=this.$m,o=this.$M,u=s.weekdays,h=s.months,l=function(t,s,r,i){return t&&(t[s]||t(e,n))||r[s].substr(0,i)},c=function(t){return M.s(i%12||12,t,"0")},_=s.meridiem||function(t,e,s){var n=t<12?"AM":"PM";return s?n.toLowerCase():n},f={YY:String(this.$y).slice(-2),YYYY:this.$y,M:o+1,MM:M.s(o+1,2,"0"),MMM:l(s.monthsShort,o,h,3),MMMM:l(h,o),D:this.$D,DD:M.s(this.$D,2,"0"),d:String(this.$W),dd:l(s.weekdaysMin,this.$W,u,2),ddd:l(s.weekdaysShort,this.$W,u,3),dddd:u[this.$W],H:String(i),HH:M.s(i,2,"0"),h:c(1),hh:c(2),a:_(i,a,!0),A:_(i,a,!1),m:String(a),mm:M.s(a,2,"0"),s:String(this.$s),ss:M.s(this.$s,2,"0"),SSS:M.s(this.$ms,3,"0"),Z:r};return n.replace(p,(function(t,e){return e||f[t]||r.replace(":","")}))},v.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},v.diff=function(s,c,d){var _,p=M.p(c),f=b(s),v=(f.utcOffset()-this.utcOffset())*t,m=this-f,$=M.m(this,f);return $=(_={},_[l]=$/12,_[u]=$,_[h]=$/3,_[o]=(m-v)/6048e5,_[a]=(m-v)/864e5,_[i]=m/e,_[r]=m/t,_[n]=m/1e3,_)[p]||m,d?$:M.a($)},v.daysInMonth=function(){return this.endOf(u).$D},v.$locale=function(){return y[this.$L]},v.locale=function(t,e){if(!t)return this.$L;var s=this.clone(),n=w(t,e,!0);return n&&(s.$L=n),s},v.clone=function(){return M.w(this.$d,this)},v.toDate=function(){return new Date(this.valueOf())},v.toJSON=function(){return this.isValid()?this.toISOString():null},v.toISOString=function(){return this.$d.toISOString()},v.toString=function(){return this.$d.toUTCString()},f}(),S=D.prototype;return b.prototype=S,[["$ms",s],["$s",n],["$m",r],["$H",i],["$W",a],["$M",u],["$y",l],["$D",c]].forEach((function(t){S[t[1]]=function(e){return this.$g(e,t[0],t[1])}})),b.extend=function(t,e){return t.$i||(t(e,D,b),t.$i=!0),b},b.locale=w,b.isDayjs=g,b.unix=function(t){return b(1e3*t)},b.en=y[$],b.Ls=y,b.p={},b}()}},e={};function s(n){var r=e[n];if(void 0!==r)return r.exports;var i=e[n]={exports:{}};return t[n].call(i.exports,i,i.exports,s),i.exports}s.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return s.d(e,{a:e}),e},s.d=(t,e)=>{for(var n in e)s.o(e,n)&&!s.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},s.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),(()=>{"use strict";const t="beforeend",e=(e,s,n="beforeend")=>{switch(s=s.getElement(),n){case"afterbegin":e.prepend(s);break;case t:e.append(s)}},n=t=>{null!==t&&(t.getElement().remove(),t.removeElement())};class r{constructor(){if(new.target===r)throw new Error("Can't instantiate Abstract, only cocrete one.");this._element=null,this._callbacks={}}getTemplate(){throw new Error("Abstarct nethod not implemented: getTemplate")}getElement(){return this._element||(this._element=(t=>{const e=document.createElement("div");return e.innerHTML=t,e.firstChild})(this.getTemplate())),this._element}removeElement(){this._element=null}}class i extends r{getTemplate(){return"<h2>\n      Ошибка загрузки данных с сервера. Попробуйте обновить страницу или зайти в позже\n    </h2>"}}class a extends r{constructor(t){super(),this._rate=t,this._rateChangeHadnler=this._rateChangeHadnler.bind(this)}getTemplate(){return`<li class="rate__item" data-tooltip="${(t=this._rate).Nominal>1?t.Nominal:""} ${t.Name}">\n      <div class="rate__name">${t.Nominal>1?t.Nominal:""} ${t.CharCode}</div>\n      <div class="current-day">${t.Value.toFixed(2)}</div>\n      <div class="rate__yesterday ${t.Value-t.Previous>0?"rate__yesterday--positive":"rate__yesterday--negative"}">${(t=>((t.Value-t.Previous)/t.Previous*100).toFixed(2)+"%")(t)}</div>\n    </li>`;var t}_rateChangeHadnler(t){t.preventDefault(),this._callbacks.previusRateHandler(t)}setLoadPreviusRatesHandler(t){this._callbacks.previusRateHandler=t,this.getElement().addEventListener("click",this._rateChangeHadnler)}}var o=s(484),u=s.n(o);class h extends r{constructor(t){super(),this._rates=t,this._popupCloseHandler=this._popupCloseHandler.bind(this)}getTemplate(){return`<div class="popup">\n      <div class="popup__wrapper">\n        <h2>${(t=this._rates)[0].CharCode}</h2>\n        <ul class="rate__list popup__list">\n          <li class="rate__item popup__item popup__item--first">\n            <div class="rate__name"><b>Дата</b></div>\n            <div class="rate__name"><b>Код валюты</b></div>\n            <div class="current-day"><b>Курс</b></div>\n          </li>\n          ${(t=>t.map((t=>`<li class="rate__item popup__item">\n        <div class="rate__name">${t.date?u()(t.date).format("DD/MM/YYYY"):"Сегодня"}</div>\n        <div class="rate__name">${t.Nominal>1?t.Nominal:""} ${t.CharCode}</div>\n        <div class="current-day">${t.Value.toFixed(2)}</div>\n      </li>`)))(t).join("\n")}\n        </ul>\n        <button class="popup__close-btn" type="button"></button>\n      </div>\n    </div>`;var t}_popupCloseHandler(t){this._callbacks.closeHandler(t)}setPopupCloseHandler(t){this._callbacks.closeHandler=t,this.getElement().addEventListener("click",this._popupCloseHandler)}}class l{constructor(t,e,s,n,r){this._container=t,this._body=e,this._rates=s,this._rate=n,this._escHandler=r,this._rateView=null,this._ratesPopupView=null,this._setRateHandler=this._setRateHandler.bind(this)}init(){this._rateView=new a(this._rate),e(this._container,this._rateView),this._setRateHandler()}_setRateHandler(){this._rateView.setLoadPreviusRatesHandler((()=>{this._createPopup()}))}_createPopup(){const t=this._rates.map((t=>t.filter((t=>t.ID===this._rate.ID)))).flat();this._ratesPopupView=new h(t),e(this._container,this._ratesPopupView),this._setPopupHandlers(),this._body.style.overflow="hidden"}_setPopupHandlers(){this._escHandler(),this._ratesPopupView.setPopupCloseHandler((t=>{(t.target.classList.contains("popup")||"BUTTON"===t.target.tagName)&&this.removePopup()}))}removePopup(){n(this._ratesPopupView),this._body.style.overflow="visible"}}const c=document.querySelector("body"),d=c.querySelector(".rate__list"),_=new class{constructor(t){this._url=t,this._previusRates=[]}async getRates(){try{const t=await fetch(this._url),e=await t.json();await this._getPreviusRates(e);const s=Object.values(e.Valute);return s.map((t=>t.date=e.Date)),this._previusRates.unshift(s),this._previusRates}catch{return[]}}async _getPreviusRates(t){let e=Object.assign({},t);for(let t=0;t<9;t++){const t=await fetch(e.PreviousURL);e=await t.json();const s=Object.values(e.Valute);s.map((t=>t.date=e.Date)),this._previusRates.push(s)}}}("https://www.cbr-xml-daily.ru/daily_json.js"),p=new class{constructor(){this._rates=[]}getRates(){return this._rates}setRates(t){this._rates=t}},f=new class extends r{constructor(){super()}getTemplate(){return"<li>\n      <h2>\n        Загружаем данные с сервера...\n      </h2>\n    </li>"}};e(d,f);const v=new class{constructor(t,e,s,n){this._container=t,this._ratesModel=s,this._body=e,this._loadingView=n,this._rateView=null,this._noRatesView=null,this._rates=[],this._ratesPresenters=[],this._setHandlerECS=this._setHandlerECS.bind(this),this._removePopupOnESC=this._removePopupOnESC.bind(this)}init(){if(n(this._loadingView),this._rates=this._ratesModel.getRates(),0===this._rates.length)return this._noRatesView=new i,void e(this._container,this._noRatesView);this._rates[0].forEach((t=>{this._renderRate(t)}))}_renderRate(t){const e=new l(this._container,this._body,this._rates,t,this._setHandlerECS);e.init(),this._ratesPresenters.push(e)}_setHandlerECS(){document.addEventListener("keydown",this._removePopupOnESC)}_removePopupOnESC(t){"Esc"!==t.key&&"Escape"!==t.key||(this._ratesPresenters.forEach((t=>t.removePopup())),document.removeEventListener("keydown",this._removePopupOnESC))}}(d,c,p,f);_.getRates().then((t=>{p.setRates(t),v.init()}))})()})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/dayjs/dayjs.min.js":
+/*!*****************************************!*\
+  !*** ./node_modules/dayjs/dayjs.min.js ***!
+  \*****************************************/
+/***/ (function(module) {
+
+!function(t,e){ true?module.exports=e():0}(this,(function(){"use strict";var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",f="month",h="quarter",c="year",d="date",$="Invalid Date",l=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},m=function(t,e,n){var r=String(t);return!r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},g={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return(e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return-t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,f),s=n-i<0,u=e.clone().add(r+(s?-1:1),f);return+(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return{M:f,y:c,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:h}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},v="en",D={};D[v]=M;var p=function(t){return t instanceof _},S=function t(e,n,r){var i;if(!e)return v;if("string"==typeof e){var s=e.toLowerCase();D[s]&&(i=s),n&&(D[s]=n,i=s);var u=e.split("-");if(!i&&u.length>1)return t(u[0])}else{var a=e.name;D[a]=e,i=a}return!r&&i&&(v=i),i||!r&&v},w=function(t,e){if(p(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},O=g;O.l=S,O.i=p,O.w=function(t,e){return w(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=S(t.locale,null,!0),this.parse(t)}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(O.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match(l);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.$x=t.x||{},this.init()},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},m.$utils=function(){return O},m.isValid=function(){return!(this.$d.toString()===$)},m.isSame=function(t,e){var n=w(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return w(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<w(t)},m.$g=function(t,e,n){return O.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!O.u(e)||e,h=O.p(t),$=function(t,e){var i=O.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},l=function(t,e){return O.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,g="set"+(this.$u?"UTC":"");switch(h){case c:return r?$(1,0):$(31,11);case f:return r?$(1,M):$(0,M+1);case o:var v=this.$locale().weekStart||0,D=(y<v?y+7:y)-v;return $(r?m-D:m+(6-D),M);case a:case d:return l(g+"Hours",0);case u:return l(g+"Minutes",1);case s:return l(g+"Seconds",2);case i:return l(g+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,!1)},m.$set=function(t,e){var n,o=O.p(t),h="set"+(this.$u?"UTC":""),$=(n={},n[a]=h+"Date",n[d]=h+"Date",n[f]=h+"Month",n[c]=h+"FullYear",n[u]=h+"Hours",n[s]=h+"Minutes",n[i]=h+"Seconds",n[r]=h+"Milliseconds",n)[o],l=o===a?this.$D+(e-this.$W):e;if(o===f||o===c){var y=this.clone().set(d,1);y.$d[$](l),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d}else $&&this.$d[$](l);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[O.p(t)]()},m.add=function(r,h){var d,$=this;r=Number(r);var l=O.p(h),y=function(t){var e=w($);return O.w(e.date(e.date()+Math.round(t*r)),$)};if(l===f)return this.set(f,this.$M+r);if(l===c)return this.set(c,this.$y+r);if(l===a)return y(1);if(l===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[l]||1,m=this.$d.getTime()+r*M;return O.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||$;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=O.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,f=n.months,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].substr(0,s)},c=function(t){return O.s(s%12||12,t,"0")},d=n.meridiem||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:a+1,MM:O.s(a+1,2,"0"),MMM:h(n.monthsShort,a,f,3),MMMM:h(f,a),D:this.$D,DD:O.s(this.$D,2,"0"),d:String(this.$W),dd:h(n.weekdaysMin,this.$W,o,2),ddd:h(n.weekdaysShort,this.$W,o,3),dddd:o[this.$W],H:String(s),HH:O.s(s,2,"0"),h:c(1),hh:c(2),a:d(s,u,!0),A:d(s,u,!1),m:String(u),mm:O.s(u,2,"0"),s:String(this.$s),ss:O.s(this.$s,2,"0"),SSS:O.s(this.$ms,3,"0"),Z:i};return r.replace(y,(function(t,e){return e||l[t]||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,$){var l,y=O.p(d),M=w(r),m=(M.utcOffset()-this.utcOffset())*e,g=this-M,v=O.m(this,M);return v=(l={},l[c]=v/12,l[f]=v,l[h]=v/3,l[o]=(g-m)/6048e5,l[a]=(g-m)/864e5,l[u]=g/n,l[s]=g/e,l[i]=g/t,l)[y]||g,$?v:O.a(v)},m.daysInMonth=function(){return this.endOf(f).$D},m.$locale=function(){return D[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=S(t,e,!0);return r&&(n.$L=r),n},m.clone=function(){return O.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),b=_.prototype;return w.prototype=b,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",f],["$y",c],["$D",d]].forEach((function(t){b[t[1]]=function(e){return this.$g(e,t[0],t[1])}})),w.extend=function(t,e){return t.$i||(t(e,_,w),t.$i=!0),w},w.locale=S,w.isDayjs=p,w.unix=function(t){return w(1e3*t)},w.en=D[v],w.Ls=D,w.p={},w}));
+
+/***/ }),
+
+/***/ "./src/api.js":
+/*!********************!*\
+  !*** ./src/api.js ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Api)
+/* harmony export */ });
+const PREVIUS_COUNT = 9;
+
+class Api {
+  constructor(url) {
+    this._url = url;
+
+    this._previusRates= [];
+  }
+
+  async getRates() {
+    try {
+      const response = await fetch(this._url);
+      const rates = await response.json();
+
+      await this._getPreviusRates(rates);
+
+      const rateItem = Object.values(rates.Valute);
+      rateItem.map((item) => item.date = rates.Date);
+
+      this._previusRates.unshift(rateItem);
+      return this._previusRates;
+
+    } catch {
+      return [];
+    }
+  }
+
+  async _getPreviusRates(rates) {
+    let previusRates = Object.assign({}, rates);
+    for(let i = 0; i < PREVIUS_COUNT; i++) {
+      const response = await fetch(previusRates.PreviousURL);
+      previusRates =  await response.json();
+      const ratesArray = Object.values(previusRates.Valute);
+      ratesArray.map((item) => item.date = previusRates.Date);
+      this._previusRates.push(ratesArray);
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/model/rate-model.js":
+/*!*********************************!*\
+  !*** ./src/model/rate-model.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RateModel)
+/* harmony export */ });
+class RateModel {
+  constructor() {
+    this._rates = [];
+  }
+
+  getRates() {
+    return this._rates;
+  }
+
+  setRates(rates) {
+    this._rates = rates;
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/presenter/page-presenter.js":
+/*!*****************************************!*\
+  !*** ./src/presenter/page-presenter.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PagePresenter)
+/* harmony export */ });
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/render */ "./src/utils/render.js");
+/* harmony import */ var _view_no_rates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../view/no-rates */ "./src/view/no-rates.js");
+/* harmony import */ var _view_rate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../view/rate */ "./src/view/rate.js");
+/* harmony import */ var _rate_presenter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./rate-presenter */ "./src/presenter/rate-presenter.js");
+
+
+
+
+
+class PagePresenter {
+  constructor(container, body, ratesModel, loadingView) {
+    this._container = container;
+    this._ratesModel = ratesModel;
+    this._body = body;
+    this._loadingView = loadingView;
+
+    this._rateView = null;
+    this._noRatesView = null;
+
+    this._rates = [];
+    this._ratesPresenters = [];
+
+    this._setHandlerESС = this._setHandlerESС.bind(this);
+    this._removePopupOnESC = this._removePopupOnESC.bind(this);
+  }
+
+  init() {
+    (0,_utils_render__WEBPACK_IMPORTED_MODULE_0__.remove)(this._loadingView);
+
+    this._rates = this._ratesModel.getRates();
+
+    if (this._rates.length === 0) {
+      this._noRatesView = new _view_no_rates__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      (0,_utils_render__WEBPACK_IMPORTED_MODULE_0__.render)(this._container, this._noRatesView);
+      return;
+    }
+
+    this._rates[0].forEach((rate) => {
+      this._renderRate(rate);
+    });
+  }
+
+  _renderRate(rate) {
+    const ratePresenter = new _rate_presenter__WEBPACK_IMPORTED_MODULE_3__["default"](this._container, this._body, this._rates, rate, this._setHandlerESС, this._removePopupOnESC);
+    ratePresenter.init();
+    this._ratesPresenters.push(ratePresenter);
+  }
+
+  _setHandlerESС() {
+    document.addEventListener('keydown', this._removePopupOnESC);
+  }
+
+  _removePopupOnESC(evt) {
+    if (evt.key === 'Esc' || evt.key === 'Escape') {
+      this._ratesPresenters.forEach((item) => item.removePopup());
+      document.removeEventListener('keydown', this._removePopupOnESC);
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/presenter/rate-presenter.js":
+/*!*****************************************!*\
+  !*** ./src/presenter/rate-presenter.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RatePresenter)
+/* harmony export */ });
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/render */ "./src/utils/render.js");
+/* harmony import */ var _view_rate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../view/rate */ "./src/view/rate.js");
+/* harmony import */ var _view_rates_popup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../view/rates-popup */ "./src/view/rates-popup.js");
+
+
+
+
+class RatePresenter {
+  constructor(container, body, rates, rate, escHadnler, removePopupOnESC) {
+    this._container = container;
+    this._body = body;
+    this._rates = rates;
+    this._rate = rate;
+    this._escHandler = escHadnler;
+    this._removePopupOnESC = removePopupOnESC;
+
+    this._rateView = null;
+    this._ratesPopupView = null;
+
+    this._setRateHandler = this._setRateHandler.bind(this);
+  }
+
+  init() {
+    this._rateView = new _view_rate__WEBPACK_IMPORTED_MODULE_1__["default"](this._rate)
+    ;(0,_utils_render__WEBPACK_IMPORTED_MODULE_0__.render)(this._container, this._rateView);
+    this._setRateHandler();
+  }
+
+  _setRateHandler() {
+    this._rateView.setLoadPreviusRatesHandler(() => {
+      this._createPopup();
+    });
+  }
+
+  _createPopup() {
+    const currentRates = this._rates.map((item) => item.filter((i) => i.ID === this._rate.ID)).flat();
+    this._ratesPopupView = new _view_rates_popup__WEBPACK_IMPORTED_MODULE_2__["default"](currentRates);
+    (0,_utils_render__WEBPACK_IMPORTED_MODULE_0__.render)(this._container, this._ratesPopupView);
+    this._setPopupHandlers();
+    this._body.style.overflow = 'hidden';
+  }
+
+  _setPopupHandlers() {
+    this._escHandler();
+    this._ratesPopupView.setPopupCloseHandler((evt) => {
+      if (evt.target.classList.contains('popup') || evt.target.tagName === 'BUTTON') {
+        this.removePopup();
+        return;
+      }
+    });
+  }
+
+  removePopup() {
+    (0,_utils_render__WEBPACK_IMPORTED_MODULE_0__.remove)(this._ratesPopupView);
+    document.removeEventListener('keydown', this._removePopupOnESC);
+    this._body.style.overflow = 'visible';
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/utils/render.js":
+/*!*****************************!*\
+  !*** ./src/utils/render.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createElement": () => (/* binding */ createElement),
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "remove": () => (/* binding */ remove)
+/* harmony export */ });
+const RenderPosition = {
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend'
+};
+
+const createElement = (template) => {
+  const newElement = document.createElement('div');
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+const render = (container, element, place = RenderPosition.BEFOREEND) => {
+  element = element.getElement();
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+
+const remove = (component) => {
+  if (component === null) {
+    return;
+  }
+
+  component.getElement().remove();
+  component.removeElement();
+};
+
+
+/***/ }),
+
+/***/ "./src/view/abstarct.js":
+/*!******************************!*\
+  !*** ./src/view/abstarct.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Abstract)
+/* harmony export */ });
+/* harmony import */ var _utils_render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/render.js */ "./src/utils/render.js");
+
+
+class Abstract {
+  constructor() {
+    if (new.target === Abstract) {
+      throw new Error('Can\'t instantiate Abstract, only cocrete one.');
+    }
+
+    this._element = null;
+    this._callbacks = {};
+  }
+
+  getTemplate() {
+    throw new Error('Abstarct nethod not implemented: getTemplate');
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = (0,_utils_render_js__WEBPACK_IMPORTED_MODULE_0__.createElement)(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/view/loading.js":
+/*!*****************************!*\
+  !*** ./src/view/loading.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LoadingView)
+/* harmony export */ });
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/render */ "./src/utils/render.js");
+/* harmony import */ var _abstarct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./abstarct */ "./src/view/abstarct.js");
+
+
+
+const createLoadingTemplate = () => {
+  return (
+    `<li>
+      <h2>
+        Загружаем данные с сервера...
+      </h2>
+    </li>`
+  );
+};
+
+class LoadingView extends _abstarct__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  constructor() {
+    super();
+  }
+
+  getTemplate() {
+    return createLoadingTemplate();
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/view/no-rates.js":
+/*!******************************!*\
+  !*** ./src/view/no-rates.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ NoRatesView)
+/* harmony export */ });
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/render */ "./src/utils/render.js");
+/* harmony import */ var _abstarct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./abstarct */ "./src/view/abstarct.js");
+
+
+
+const createNoRatesTemplate = () => {
+  return (
+    `<h2>
+      Ошибка загрузки данных с сервера. Попробуйте обновить страницу или зайти в позже
+    </h2>`
+  );
+};
+
+class NoRatesView extends _abstarct__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  getTemplate() {
+    return createNoRatesTemplate();
+  };
+}
+
+
+/***/ }),
+
+/***/ "./src/view/rate.js":
+/*!**************************!*\
+  !*** ./src/view/rate.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RateView)
+/* harmony export */ });
+/* harmony import */ var _abstarct__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abstarct */ "./src/view/abstarct.js");
+
+
+const getPercent = (rate) => {
+  return ((rate.Value - rate.Previous) / rate.Previous * 100).toFixed(2) + '%';
+};
+
+const createTemplate = (rate) => {
+  return (
+    `<li class="rate__item" data-tooltip="${rate.Nominal > 1 ? rate.Nominal : ''} ${rate.Name}">
+      <div class="rate__name">${rate.Nominal > 1 ? rate.Nominal : ''} ${rate.CharCode}</div>
+      <div class="current-day">${rate.Value.toFixed(2)}</div>
+      <div class="rate__yesterday ${rate.Value - rate.Previous > 0 ? 'rate__yesterday--positive' : 'rate__yesterday--negative'}">${getPercent(rate)}</div>
+    </li>`
+  );
+};
+
+class RateView extends _abstarct__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(rate) {
+    super();
+
+    this._rate = rate;
+
+    this._rateChangeHadnler = this._rateChangeHadnler.bind(this);
+  }
+
+  getTemplate() {
+    return createTemplate(this._rate);
+  }
+
+  _rateChangeHadnler(evt) {
+    evt.preventDefault();
+    this._callbacks.previusRateHandler(evt);
+  }
+
+  setLoadPreviusRatesHandler(callback) {
+    this._callbacks.previusRateHandler = callback
+    this.getElement().addEventListener('click', this. _rateChangeHadnler)
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/view/rates-popup.js":
+/*!*********************************!*\
+  !*** ./src/view/rates-popup.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RatePopup)
+/* harmony export */ });
+/* harmony import */ var _abstarct__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abstarct */ "./src/view/abstarct.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/render */ "./src/utils/render.js");
+
+
+
+
+const createRatesList = (rates) => {
+  return rates.map((rate) => {
+    return (
+      `<li class="rate__item popup__item">
+        <div class="rate__name">${rate.date ? dayjs__WEBPACK_IMPORTED_MODULE_1___default()(rate.date).format('DD/MM/YYYY')  : 'Сегодня'}</div>
+        <div class="rate__name">${rate.Nominal > 1 ? rate.Nominal : ''} ${rate.CharCode}</div>
+        <div class="current-day">${rate.Value.toFixed(2)}</div>
+      </li>`
+    );
+  })
+};
+
+
+const createRatesPopupTemplate = (rates) => {
+  return (
+    `<div class="popup">
+      <div class="popup__wrapper">
+        <h2>${rates[0].CharCode}</h2>
+        <ul class="rate__list popup__list">
+          <li class="rate__item popup__item popup__item--first">
+            <div class="rate__name"><b>Дата</b></div>
+            <div class="rate__name"><b>Код валюты</b></div>
+            <div class="current-day"><b>Курс</b></div>
+          </li>
+          ${createRatesList(rates).join('\n')}
+        </ul>
+        <button class="popup__close-btn" type="button"></button>
+      </div>
+    </div>`
+  );
+};
+
+class RatePopup extends _abstarct__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(rates) {
+    super();
+
+    this._rates = rates;
+
+    this._popupCloseHandler = this._popupCloseHandler.bind(this);
+  }
+
+  getTemplate() {
+    return createRatesPopupTemplate(this._rates);
+  }
+
+  _popupCloseHandler(evt) {
+    this._callbacks.closeHandler(evt);
+  }
+
+  setPopupCloseHandler(callback) {
+    this._callbacks.closeHandler = callback;
+    this.getElement().addEventListener('click', this._popupCloseHandler);
+  }
+}
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+/*!*********************!*\
+  !*** ./src/main.js ***!
+  \*********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/api.js");
+/* harmony import */ var _model_rate_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./model/rate-model */ "./src/model/rate-model.js");
+/* harmony import */ var _presenter_page_presenter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./presenter/page-presenter */ "./src/presenter/page-presenter.js");
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/render */ "./src/utils/render.js");
+/* harmony import */ var _view_loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./view/loading */ "./src/view/loading.js");
+
+
+
+
+
+
+const body = document.querySelector('body');
+const ratesContainer = body.querySelector('.rate__list');
+const curentRatesURL = 'https://www.cbr-xml-daily.ru/daily_json.js';
+
+const api = new _api__WEBPACK_IMPORTED_MODULE_0__["default"](curentRatesURL);
+const ratesModel = new _model_rate_model__WEBPACK_IMPORTED_MODULE_1__["default"]();
+const loadingView = new _view_loading__WEBPACK_IMPORTED_MODULE_4__["default"]();
+(0,_utils_render__WEBPACK_IMPORTED_MODULE_3__.render)(ratesContainer, loadingView);
+const pagePresenter =  new _presenter_page_presenter__WEBPACK_IMPORTED_MODULE_2__["default"](ratesContainer, body, ratesModel, loadingView);
+
+const rates = api.getRates()
+  .then((rates) => {
+    ratesModel.setRates(rates);
+    pagePresenter.init();
+  });
+
+})();
+
+/******/ })()
+;
 //# sourceMappingURL=bundle.js.map

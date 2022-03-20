@@ -16,7 +16,7 @@ export default class PagePresenter {
     this._rates = [];
     this._ratesPresenters = [];
 
-    this._setHandlerECS = this._setHandlerECS.bind(this);
+    this._setHandlerESС = this._setHandlerESС.bind(this);
     this._removePopupOnESC = this._removePopupOnESC.bind(this);
   }
 
@@ -37,19 +37,19 @@ export default class PagePresenter {
   }
 
   _renderRate(rate) {
-    const ratePresenter = new RatePresenter(this._container, this._body, this._rates, rate, this._setHandlerECS);
+    const ratePresenter = new RatePresenter(this._container, this._body, this._rates, rate, this._setHandlerESС, this._removePopupOnESC);
     ratePresenter.init();
     this._ratesPresenters.push(ratePresenter);
   }
 
-  _setHandlerECS() {
-    document.addEventListener('keydown', this._removePopupOnESC)
+  _setHandlerESС() {
+    document.addEventListener('keydown', this._removePopupOnESC);
   }
 
   _removePopupOnESC(evt) {
     if (evt.key === 'Esc' || evt.key === 'Escape') {
       this._ratesPresenters.forEach((item) => item.removePopup());
-      document.removeEventListener('keydown', this._removePopupOnESC)
+      document.removeEventListener('keydown', this._removePopupOnESC);
     }
   }
 }
